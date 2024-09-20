@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum Role {
-    //CUSTOMER PERMISSION:
+    //SELLER PERMISSION:
     CUSTOMER(Arrays.asList(Permission.READ_ALL_PRODUCTS)),
 
 
@@ -24,8 +24,11 @@ public enum Role {
             Permission.READ_USER_BY_ID
     )),
 
-    //USER PERMISSION:
-    USER(Arrays.asList(Permission.READ_ALL_USERS));
+    //PURCHASER PERMISSION:
+    USER(Arrays.asList(
+            Permission.READ_ALL_USERS
+    )
+    );
 
     private List<Permission> permissions;
 
