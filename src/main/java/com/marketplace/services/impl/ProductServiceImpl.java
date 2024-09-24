@@ -10,7 +10,6 @@ import com.marketplace.repositories.CategoryRepository;
 import com.marketplace.repositories.ProductRepository;
 import com.marketplace.repositories.UserRepository;
 import com.marketplace.services.ProductService;
-import com.marketplace.utils.Constant;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -61,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse save(ProductRequest request) {
-        return categoryRepository.findById(Constant.CATEGORY)
+        return categoryRepository.findById(request.getCategory().getId())
                 .map(category -> userRepository.findById(request.getUser().getId())
                         .map(user -> {
                             Product product = Product.builder()
@@ -89,7 +88,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse update(Long id, ProductRequest request) {
         return productRepository.findById(id)
                 .map(product -> categoryRepository
-                        .findById(Constant.CATEGORY)
+                        .findById(request.getCategory().getId())
                         .map(category -> {
                             product.setName(request.getName());
                             product.setDescription(request.getDescription());
