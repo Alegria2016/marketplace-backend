@@ -41,6 +41,8 @@ public class SecurityFilter {
 
                     authConfig.requestMatchers("/error").permitAll();
 
+                    authConfig.requestMatchers(HttpMethod.GET, "/api/v1/auth/profile").hasAuthority(Permission.GET_PROFILE_USER.name());
+
                     authConfig.requestMatchers(HttpMethod.GET, "/api/v1/users/{id}").hasAuthority(Permission.READ_USER_BY_ID.name());
                     authConfig.requestMatchers(HttpMethod.GET, "/api/v1/users").hasAuthority(Permission.READ_ALL_USERS.name());
                     authConfig.requestMatchers(HttpMethod.PUT, "/api/v1/users/{id}").hasAuthority(Permission.UPDATE_USER.name());
@@ -52,7 +54,7 @@ public class SecurityFilter {
                     authConfig.requestMatchers(HttpMethod.POST, "/api/v1/products").hasAuthority(Permission.SAVE_ONE_PRODUCT.name());
                     authConfig.requestMatchers(HttpMethod.PUT, "/api/v1/products/{id}").hasAuthority(Permission.UPDATE_PRODUCT.name());
                     authConfig.requestMatchers(HttpMethod.DELETE, "/api/v1/products/{id}").hasAuthority(Permission.DELETE_PRODUCT.name());
-
+                    authConfig.requestMatchers(HttpMethod.GET, "/api/v1/products/user/{id}").hasAuthority(Permission.GET_PRODUCTOS_BY_USER.name());
 
                     authConfig.anyRequest().denyAll();
 

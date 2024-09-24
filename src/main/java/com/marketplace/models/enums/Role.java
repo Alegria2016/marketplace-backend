@@ -5,7 +5,11 @@ import java.util.List;
 
 public enum Role {
     //SELLER PERMISSION:
-    CUSTOMER(Arrays.asList(Permission.READ_ALL_PRODUCTS)),
+    SELLER(Arrays.asList(
+            Permission.READ_ALL_PRODUCTS,
+            Permission.GET_PRODUCTOS_BY_USER,
+            Permission.GET_PROFILE_USER
+    )),
 
 
     //ADMIN PERMISSION:
@@ -16,17 +20,22 @@ public enum Role {
             Permission.SAVE_ONE_PRODUCT,
             Permission.DELETE_PRODUCT,
             Permission.UPDATE_PRODUCT,
+            Permission.GET_PRODUCTOS_BY_USER,
+
 
             //USERS
             Permission.READ_ALL_USERS,
             Permission.UPDATE_USER,
             Permission.DELETE_USER,
-            Permission.READ_USER_BY_ID
+            Permission.READ_USER_BY_ID,
+            Permission.GET_PROFILE_USER
+
     )),
 
     //PURCHASER PERMISSION:
     USER(Arrays.asList(
-            Permission.READ_ALL_USERS
+            Permission.READ_ALL_USERS,
+            Permission.GET_PROFILE_USER
     )
     );
 

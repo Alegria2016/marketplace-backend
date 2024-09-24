@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -28,8 +29,13 @@ public class ProductController {
 
 
     @GetMapping
-    public ResponseEntity<Page<ProductResponse>> findAll(@PageableDefault Pageable pageable){
+    public ResponseEntity<List<ProductResponse>> findAll(@PageableDefault Pageable pageable){
         return new ResponseEntity<>(productService.findAll(pageable), HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<ProductResponse>> findByUserId(@PathVariable Long id){
+        return new ResponseEntity<>(productService.findByUserId(id), HttpStatus.OK);
     }
 
 

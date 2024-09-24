@@ -1,13 +1,18 @@
 package com.marketplace.authentication;
 
+import com.marketplace.models.dtos.UserResponse;
+
 public class AuthenticationResponse {
 
     private boolean valid;
     private String token;
 
-    public AuthenticationResponse(String token,boolean valid) {
+    private UserResponse user;
+
+    public AuthenticationResponse(String token,boolean valid, UserResponse user) {
         this.token = token;
         this.valid = valid;
+        this.user = user;
     }
 
 
@@ -25,5 +30,13 @@ public class AuthenticationResponse {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public UserResponse getUser() {
+        return user;
+    }
+
+    public void setUser(UserResponse user) {
+        this.user = user;
     }
 }

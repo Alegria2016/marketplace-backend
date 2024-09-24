@@ -14,11 +14,14 @@ import java.time.LocalDateTime;
 public class ProductResponse {
     private Long id;
     private String name;
+    private String description;
     private String sku;
     private int quantity;
     private double price;
+    private String image;
     private LocalDateTime createdUp;
     private LocalDateTime updatedUp;
     private CategoryResponse category;
     private UserResponse user;
+    private CompanyResponse company;
 }

@@ -10,6 +10,7 @@ import com.marketplace.repositories.CategoryRepository;
 import com.marketplace.repositories.ProductRepository;
 import com.marketplace.repositories.UserRepository;
 import com.marketplace.services.ProductService;
+import com.marketplace.utils.Constant;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -18,7 +19,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,32 +42,37 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductResponse> findAll(Pageable pageable) {
-        int startIndex =(int) pageable.getOffset();
+    public List<ProductResponse> findByUserId(Long id) {
+        List<Product> products =  productRepository.findByUserId(id);
 
-        List<Product> products = productRepository.findAll();
+        return products.stream().map(product ->modelMapper.map(product, ProductResponse.class))
+                .collect(Collectors.toList());
+    }
 
-        int endIndex = Math.min(startIndex + pageable.getPageSize(), products.size());
+    @Override
+    public List<ProductResponse> findAll(Pageable pageable) {
 
-        List<ProductResponse> pageContent = products.subList(startIndex,endIndex) .stream()
-                .map(product -> modelMapper.map(product,ProductResponse.class))
-                .toList();
+        List<Product> products =  productRepository.findAll();
 
-        return new PageImpl<>(pageContent, pageable,products.size());
+       return products.stream().map(product ->modelMapper.map(product, ProductResponse.class))
+               .collect(Collectors.toList());
+
     }
 
     @Override
     public ProductResponse save(ProductRequest request) {
-        return categoryRepository.findById(request.getCategory().getId())
+        return categoryRepository.findById(Constant.CATEGORY)
                 .map(category -> userRepository.findById(request.getUser().getId())
                         .map(user -> {
                             Product product = Product.builder()
                                     .name(request.getName())
+                                    .description(request.getDescription())
                                     .sku(request.getSku())
                                     .quantity(request.getQuantity())
                                     .price(request.getPrice())
                                     .category(category)
                                     .user(user)
+                                    .image(request.getImage())
                                     .createdUp(LocalDateTime.now())
                                     .build();
 
@@ -81,9 +89,11 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse update(Long id, ProductRequest request) {
         return productRepository.findById(id)
                 .map(product -> categoryRepository
-                        .findById(request.getCategory().getId())
+                        .findById(Constant.CATEGORY)
                         .map(category -> {
                             product.setName(request.getName());
+                            product.setDescription(request.getDescription());
+                            product.setImage(request.getImage());
                             product.setSku(request.getSku());
                             product.setQuantity(request.getQuantity());
                             product.setPrice(request.getPrice());
